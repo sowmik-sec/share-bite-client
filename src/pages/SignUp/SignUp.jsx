@@ -1,8 +1,30 @@
 import { Link } from "react-router-dom";
 import img from "../../assets/login/login.svg";
+import useAuth from "../../hooks/useAuth";
+import { useState } from "react";
 
 function SignUp() {
-  const handleSignUp = () => {};
+  const { signup, updateUser } = useAuth();
+  const [error, setError] = useState(null);
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    const photoUrl = form.photoUrl.value;
+    signup(email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        updateUser(name, photoUrl)
+          .then(() => console.log("profile updated"))
+          .catch((err) => setError(err.message));
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+  };
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row">
@@ -70,6 +92,9 @@ function SignUp() {
                 />
               </div>
             </form>
+            {error && (
+              <p className="text-red-400 text-center font-bold">{error}</p>
+            )}
             <p className="my-4 text-center">
               Already Have an Account?{" "}
               <Link className="text-orange-600 font-bold" to="/login">
