@@ -1,8 +1,22 @@
 import { Link } from "react-router-dom";
 import img from "../../assets/login/login.svg";
+import useAuth from "../../hooks/useAuth";
+import { useState } from "react";
 
 function Login() {
-  const handleLogin = () => {};
+  const { login } = useAuth();
+  const [error, setError] = useState(null);
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    login(email, password)
+      .then(() => {
+        console.log("user signed in");
+      })
+      .catch((err) => setError(err.message));
+  };
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row">
@@ -48,6 +62,9 @@ function Login() {
                 />
               </div>
             </form>
+            {error && (
+              <p className="text-red-400 text-center font-bold">{error}</p>
+            )}
             <p className="my-4 text-center">
               New to Car Doctors{" "}
               <Link className="text-orange-600 font-bold" to="/signup">
