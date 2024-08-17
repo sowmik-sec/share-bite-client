@@ -4,7 +4,7 @@ import useAuth from "../../hooks/useAuth";
 import { useState } from "react";
 
 function Login() {
-  const { login } = useAuth();
+  const { login, googleSignIn } = useAuth();
   const [error, setError] = useState(null);
   const handleLogin = (e) => {
     e.preventDefault();
@@ -17,6 +17,15 @@ function Login() {
       })
       .catch((err) => setError(err.message));
   };
+
+  const handleGoogleSignIn = () => {
+    googleSignIn()
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => setError(err.message));
+  };
+
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row">
@@ -62,6 +71,9 @@ function Login() {
                 />
               </div>
             </form>
+            <button onClick={handleGoogleSignIn} className="btn btn-primary">
+              Login with Google
+            </button>
             {error && (
               <p className="text-red-400 text-center font-bold">{error}</p>
             )}
