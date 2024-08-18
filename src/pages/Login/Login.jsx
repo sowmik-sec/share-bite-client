@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import img from "../../assets/login/login.svg";
 import useAuth from "../../hooks/useAuth";
 import { useState } from "react";
+import axios from "axios";
 
 function Login() {
   const { login, googleSignIn } = useAuth();
@@ -14,9 +15,19 @@ function Login() {
     const email = form.email.value;
     const password = form.password.value;
     login(email, password)
-      .then(() => {
+      .then((result) => {
         console.log("user signed in");
-        navigate(location?.state ? location?.state : "/");
+        const loggedInUser = result.user;
+        console.log(loggedInUser);
+        const user = { email };
+        axios
+          .post("http://localhost:5000/jwt", user, { withCredentials: true })
+          .then((res) => {
+            console.log(res.data);
+            if (res.data.success) {
+              navigate(location?.state ? location?.state : "/");
+            }
+          });
       })
       .catch((err) => setError(err.message));
   };
