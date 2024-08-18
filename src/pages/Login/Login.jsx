@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import img from "../../assets/login/login.svg";
 import useAuth from "../../hooks/useAuth";
 import { useState } from "react";
@@ -6,6 +6,8 @@ import { useState } from "react";
 function Login() {
   const { login, googleSignIn } = useAuth();
   const [error, setError] = useState(null);
+  const location = useLocation();
+  const navigate = useNavigate();
   const handleLogin = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -14,6 +16,7 @@ function Login() {
     login(email, password)
       .then(() => {
         console.log("user signed in");
+        navigate(location?.state ? location?.state : "/");
       })
       .catch((err) => setError(err.message));
   };
