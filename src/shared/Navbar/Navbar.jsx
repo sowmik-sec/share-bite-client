@@ -13,11 +13,20 @@ function Navbar() {
   const navItems = (
     <>
       <li>
-        <Link to="/">Home</Link>{" "}
-      </li>
-      <li>
         {" "}
         <Link to="/about">About</Link>{" "}
+      </li>
+      <li>
+        <Link to={"/available-foods"}>Available Foods</Link>
+      </li>
+      <li>
+        <Link to={"/add-food"}>Add Food</Link>
+      </li>
+      <li>
+        <Link to={"/manage-my-foods"}>Manage My Foods</Link>
+      </li>
+      <li>
+        <Link to={"request-food"}>Request Food</Link>
       </li>
     </>
   );
@@ -50,6 +59,7 @@ function Navbar() {
         </div>
         <Link to="/" className="btn btn-ghost normal-case text-xl">
           {/* <img src={logo} alt="" /> */}
+          <p>Bite Share</p>
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
