@@ -1,6 +1,10 @@
+import axios from "axios";
 import { useState } from "react";
+import useAuth from "../../hooks/useAuth";
+import toast, { Toaster } from "react-hot-toast";
 
 const AddFood = () => {
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     foodName: "",
     foodImage: "",
@@ -11,7 +15,7 @@ const AddFood = () => {
     donatorImage: "",
     donatorName: "",
     donatorEmail: "",
-    foodStatus: "",
+    foodStatus: "available",
   });
 
   const handleChange = (e) => {
@@ -25,10 +29,25 @@ const AddFood = () => {
     e.preventDefault();
     // Handle form submission logic here
     console.log(formData);
+    const theDate = {
+      ...formData,
+      donatorImage: user?.photoURL,
+      donatorName: user?.displayName,
+      donatorEmail: user?.email,
+    };
+    axios
+      .post("http://localhost:5000/add-food", theDate)
+      .then((res) => {
+        if (res.data.acknowledged) {
+          toast.success("Food added successfully");
+        }
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
     <div className="max-w-lg mx-auto bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+      <Toaster position="top-center" reverseOrder={false} />
       <h2 className="text-2xl font-bold mb-4 text-center text-gray-900 dark:text-gray-100">
         Donate Food
       </h2>
@@ -117,8 +136,7 @@ const AddFood = () => {
           <input
             type="text"
             name="donatorImage"
-            value={formData.donatorImage}
-            onChange={handleChange}
+            defaultValue={user?.photoURL}
             className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300"
           />
         </div>
@@ -130,7 +148,7 @@ const AddFood = () => {
           <input
             type="text"
             name="donatorName"
-            value={formData.donatorName}
+            defaultValue={user?.displayName}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300"
           />
@@ -143,8 +161,7 @@ const AddFood = () => {
           <input
             type="email"
             name="donatorEmail"
-            value={formData.donatorEmail}
-            onChange={handleChange}
+            defaultValue={user?.email}
             className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300"
           />
         </div>
