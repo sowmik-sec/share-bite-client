@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import img from "../../assets/login/login.svg";
 import useAuth from "../../hooks/useAuth";
 import { useState } from "react";
+import axios from "axios";
 
 function SignUp() {
   const { signup, updateUser } = useAuth();
@@ -18,7 +19,14 @@ function SignUp() {
         const user = userCredential.user;
         console.log(user);
         updateUser(name, photoUrl)
-          .then(() => console.log("profile updated"))
+          .then(() => {
+            console.log("profile updated");
+            const curUser = { name, email };
+            axios
+              .post("http://localhost:5000/user", curUser)
+              .then((res) => console.log(res.data))
+              .catch((err) => console.log(err));
+          })
           .catch((err) => setError(err.message));
       })
       .catch((err) => {
