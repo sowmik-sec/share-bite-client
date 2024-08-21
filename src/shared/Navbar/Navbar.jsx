@@ -23,7 +23,7 @@ function Navbar() {
         <Link to={"/add-food"}>Add Food</Link>
       </li>
       <li>
-        <Link to={"/manage-my-foods"}>Manage My Foods</Link>
+        <Link to={"/manage-my-food"}>Manage My Foods</Link>
       </li>
       <li>
         <Link to={"request-food"}>Request Food</Link>
