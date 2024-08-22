@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import ShowFoods from "../ShowFoods/ShowFoods";
+import Spinner from "../../shared/Spinner/Spinner";
 
 function ManageMyFood() {
   const [foods, setFoods] = useState([]);
@@ -16,11 +17,7 @@ function ManageMyFood() {
   }, [user?.email]);
   console.log(foods);
   if (foods.length === 0) {
-    return (
-      <div className="flex justify-center items-center">
-        <span className="loading loading-spinner loading-lg text-success"></span>
-      </div>
-    );
+    return <Spinner />;
   }
   return <ShowFoods curFoods={foods} />;
 }
