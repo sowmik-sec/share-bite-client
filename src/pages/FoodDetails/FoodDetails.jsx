@@ -22,7 +22,7 @@ function FoodDetails() {
   const isDonator = user?.email === donatorEmail;
 
   const handleEdit = () => {
-    navigate(`/edit-food/${food.id}`);
+    navigate(`/edit-food/${food._id}`);
   };
 
   return (
