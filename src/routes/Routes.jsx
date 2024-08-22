@@ -4,11 +4,12 @@ import Home from "../pages/Home/Home/Home";
 import SignUp from "../pages/SignUp/SignUp";
 import Login from "../pages/Login/Login";
 import NotFound from "../pages/NotFound/NotFound";
-import AddFood from "../pages/AddFood/AddFood";
 import PrivateRoute from "./PrivateRoute";
 import AvailableFoods from "../pages/AvailableFoods/AvailableFoods";
 import ManageMyFood from "../pages/ManageMyFood/ManageMyFood";
 import FoodDetails from "../pages/FoodDetails/FoodDetails";
+import CreateFoodDonation from "../pages/CreateFoodDonation/CreateFoodDonation";
+import EditFoodDonation from "../pages/EditFoodDonation/EditFoodDonation";
 
 const router = createBrowserRouter([
   {
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
         path: "add-food",
         element: (
           <PrivateRoute>
-            <AddFood />
+            <CreateFoodDonation />
           </PrivateRoute>
         ),
       },
@@ -58,6 +59,16 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <FoodDetails />
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/foods/${params.id}`),
+      },
+      {
+        path: "edit-food/:id",
+        element: (
+          <PrivateRoute>
+            <EditFoodDonation />
           </PrivateRoute>
         ),
         loader: ({ params }) =>
