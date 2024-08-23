@@ -44,7 +44,6 @@ const router = createBrowserRouter([
             <AvailableFoods />
           </PrivateRoute>
         ),
-        loader: () => fetch("http://localhost:5000/food"),
       },
       {
         path: "manage-my-food",
