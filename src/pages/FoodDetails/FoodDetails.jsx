@@ -56,6 +56,19 @@ function FoodDetails() {
     }
   }, [willDelete, food._id, navigate]);
 
+  useEffect(() => {
+    food.foodStatus = "expired";
+    if (new Date() > new Date(expiredDate)) {
+      axios
+        .patch(`http://localhost:5000/foods/${food._id}`, food)
+        .then((res) => {
+          console.log(res.data);
+          setFood({ ...food, foodStatus: "expired" });
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [expiredDate, food]);
+
   return (
     <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden my-8">
       <Modal setWillDelete={setWillDelete} />
@@ -123,7 +136,9 @@ function FoodDetails() {
         {!isDonator && (
           <button
             onClick={handleClaimFood}
-            disabled={food.foodStatus === "claimed"}
+            disabled={
+              food.foodStatus === "claimed" || food.foodStatus === "expired"
+            }
             className="mt-6 w-full bg-blue-500 dark:bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-400 dark:hover:bg-blue-600 transition-colors"
           >
             Claim This Food
