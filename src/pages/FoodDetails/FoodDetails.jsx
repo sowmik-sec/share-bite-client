@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 function FoodDetails() {
-  const food = useLoaderData();
+  const curFood = useLoaderData();
+  const [food, setFood] = useState(curFood);
   const navigate = useNavigate();
   const { user } = useAuth(); // Fetching the current user from context
   const [willDelete, setWillDelete] = useState(false);
@@ -29,10 +30,18 @@ function FoodDetails() {
     navigate(`/edit-food/${food._id}`);
   };
 
-  // const handleDelete = () => {
-
-  // };
-
+  const handleClaimFood = () => {
+    food.foodStatus = "claimed";
+    axios
+      .patch(`http://localhost:5000/foods/${food._id}`, food)
+      .then((res) => {
+        if (res.data.acknowledged) {
+          setFood({ ...food, foodStatus: "claimed" });
+          toast.success("You successfully claimed this food");
+        }
+      })
+      .catch((err) => console.error(err));
+  };
   useEffect(() => {
     if (willDelete) {
       axios
@@ -109,6 +118,15 @@ function FoodDetails() {
             className="mt-6 w-full bg-blue-500 dark:bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-400 dark:hover:bg-blue-600 transition-colors"
           >
             Edit Food Details
+          </button>
+        )}
+        {!isDonator && (
+          <button
+            onClick={handleClaimFood}
+            disabled={food.foodStatus === "claimed"}
+            className="mt-6 w-full bg-blue-500 dark:bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-400 dark:hover:bg-blue-600 transition-colors"
+          >
+            Claim This Food
           </button>
         )}
         {isDonator && (
