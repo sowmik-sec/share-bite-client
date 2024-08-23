@@ -57,17 +57,25 @@ function FoodDetails() {
   }, [willDelete, food._id, navigate]);
 
   useEffect(() => {
-    food.foodStatus = "expired";
-    if (new Date() > new Date(expiredDate)) {
+    // Extract only the date part for comparison
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0); // Set time to midnight to compare only the date
+
+    const foodExpiredDate = new Date(expiredDate);
+    foodExpiredDate.setHours(0, 0, 0, 0); // Set time to midnight to compare only the date
+
+    if (currentDate > foodExpiredDate) {
       axios
-        .patch(`http://localhost:5000/foods/${food._id}`, food)
+        .patch(`http://localhost:5000/foods/${food._id}`, {
+          foodStatus: "expired",
+        })
         .then((res) => {
           console.log(res.data);
           setFood({ ...food, foodStatus: "expired" });
         })
         .catch((err) => console.error(err));
     }
-  }, [expiredDate, food]);
+  }, [expiredDate, food, setFood]);
 
   return (
     <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden my-8">
