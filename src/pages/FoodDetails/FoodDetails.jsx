@@ -1,11 +1,15 @@
 import { useLoaderData, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import axios from "axios";
+import Modal from "../../shared/Modal/Modal";
+import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 function FoodDetails() {
   const food = useLoaderData();
   const navigate = useNavigate();
   const { user } = useAuth(); // Fetching the current user from context
-
+  const [willDelete, setWillDelete] = useState(false);
   const {
     foodName,
     foodImage,
@@ -25,8 +29,28 @@ function FoodDetails() {
     navigate(`/edit-food/${food._id}`);
   };
 
+  // const handleDelete = () => {
+
+  // };
+
+  useEffect(() => {
+    if (willDelete) {
+      axios
+        .delete(`http://localhost:5000/foods/${food._id}`)
+        .then((result) => {
+          console.log(result);
+          console.log(result.data);
+          toast.success("Food item deleted successfully");
+          navigate("/manage-my-food");
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [willDelete, food._id, navigate]);
+
   return (
     <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden my-8">
+      <Modal setWillDelete={setWillDelete} />
+      <Toaster />
       <img
         src={foodImage}
         alt={foodName}
@@ -85,6 +109,14 @@ function FoodDetails() {
             className="mt-6 w-full bg-blue-500 dark:bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-400 dark:hover:bg-blue-600 transition-colors"
           >
             Edit Food Details
+          </button>
+        )}
+        {isDonator && (
+          <button
+            className="mt-6 w-full bg-red-500 dark:bg-red-700 text-white py-2 px-4 rounded-lg hover:bg-red-400 dark:hover:bg-red-600 transition-colors"
+            onClick={() => document.getElementById("my_modal_5").showModal()}
+          >
+            Delete Food
           </button>
         )}
       </div>
