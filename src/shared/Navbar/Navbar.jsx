@@ -28,6 +28,9 @@ function Navbar() {
       <li>
         <Link to={"request-food"}>Request Food</Link>
       </li>
+      <li>
+        <Link to={"requested-foods"}>Requested Foods</Link>
+      </li>
     </>
   );
   return (
