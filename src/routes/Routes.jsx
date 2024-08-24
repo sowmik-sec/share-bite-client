@@ -10,6 +10,9 @@ import ManageMyFood from "../pages/ManageMyFood/ManageMyFood";
 import FoodDetails from "../pages/FoodDetails/FoodDetails";
 import CreateFoodDonation from "../pages/CreateFoodDonation/CreateFoodDonation";
 import EditFoodDonation from "../pages/EditFoodDonation/EditFoodDonation";
+import RequestFood from "../pages/RequestFood/RequestFood";
+import RequestedFood from "../pages/RequestedFood/RequestedFood";
+import EditFoodRequest from "../pages/EditFoodRequest/EditFoodRequest";
 
 const router = createBrowserRouter([
   {
@@ -72,6 +75,32 @@ const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(`http://localhost:5000/foods/${params.id}`),
+      },
+      {
+        path: "request-food",
+        element: (
+          <PrivateRoute>
+            <RequestFood />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "requested-foods",
+        element: (
+          <PrivateRoute>
+            <RequestedFood />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "edit-food-request/:id",
+        element: (
+          <PrivateRoute>
+            <EditFoodRequest />
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/food-requests/${params.id}`),
       },
     ],
   },
