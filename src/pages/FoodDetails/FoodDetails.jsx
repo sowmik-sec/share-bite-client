@@ -35,17 +35,19 @@ function FoodDetails() {
   useEffect(() => {
     if (willClaim) {
       food.foodStatus = "claimed";
+      food.claimedBy = user?.email;
       axios
         .patch(`http://localhost:5000/foods/${food._id}`, food)
         .then((res) => {
           if (res.data.acknowledged) {
             setFood({ ...food, foodStatus: "claimed" });
+            setWillClaim(false);
             toast.success("You successfully claimed this food");
           }
         })
         .catch((err) => console.error(err));
     }
-  }, [food, willClaim]);
+  }, [food, willClaim, user]);
   useEffect(() => {
     if (willDelete) {
       axios
