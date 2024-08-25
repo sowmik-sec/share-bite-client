@@ -26,6 +26,9 @@ function Navbar() {
         <Link to={"/manage-my-food"}>Manage My Foods</Link>
       </li>
       <li>
+        <Link to={"/my-claimed-foods"}>My Claimed Foods</Link>
+      </li>
+      <li>
         <Link to={"request-food"}>Request Food</Link>
       </li>
       <li>
