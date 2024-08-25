@@ -4,6 +4,7 @@ import axios from "axios";
 import Modal from "../../shared/Modal/Modal";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import RequestModal from "../../shared/RequestModal/RequestModal";
 
 function FoodDetails() {
   const curFood = useLoaderData();
@@ -11,6 +12,7 @@ function FoodDetails() {
   const navigate = useNavigate();
   const { user } = useAuth(); // Fetching the current user from context
   const [willDelete, setWillDelete] = useState(false);
+  const [willClaim, setWillClaim] = useState(false);
   const {
     foodName,
     foodImage,
@@ -30,18 +32,20 @@ function FoodDetails() {
     navigate(`/edit-food/${food._id}`);
   };
 
-  const handleClaimFood = () => {
-    food.foodStatus = "claimed";
-    axios
-      .patch(`http://localhost:5000/foods/${food._id}`, food)
-      .then((res) => {
-        if (res.data.acknowledged) {
-          setFood({ ...food, foodStatus: "claimed" });
-          toast.success("You successfully claimed this food");
-        }
-      })
-      .catch((err) => console.error(err));
-  };
+  useEffect(() => {
+    if (willClaim) {
+      food.foodStatus = "claimed";
+      axios
+        .patch(`http://localhost:5000/foods/${food._id}`, food)
+        .then((res) => {
+          if (res.data.acknowledged) {
+            setFood({ ...food, foodStatus: "claimed" });
+            toast.success("You successfully claimed this food");
+          }
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [food, willClaim]);
   useEffect(() => {
     if (willDelete) {
       axios
@@ -80,6 +84,7 @@ function FoodDetails() {
   return (
     <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden my-8">
       <Modal setWillDelete={setWillDelete} />
+      <RequestModal food={food} setWillClaim={setWillClaim} />
       <Toaster />
       <img
         src={foodImage}
@@ -143,7 +148,7 @@ function FoodDetails() {
         )}
         {!isDonator && (
           <button
-            onClick={handleClaimFood}
+            onClick={() => document.getElementById("request-modal").showModal()}
             disabled={
               food.foodStatus === "claimed" || food.foodStatus === "expired"
             }
