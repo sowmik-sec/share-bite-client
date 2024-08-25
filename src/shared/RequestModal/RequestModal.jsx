@@ -133,16 +133,16 @@ function RequestModal({ food, setWillClaim }) {
           </div>
         </form>
         <div className="modal-action">
-          <form method="dialog flex">
+          <form method="dialog">
             {/* if there is a button in form, it will close the modal */}
             <button
               onClick={() => setWillClaim(true)}
-              className="w-1/2 bg-blue-500 dark:bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-400 dark:hover:bg-blue-600 transition-colors"
+              className="w-full mr-2 bg-blue-500 dark:bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-400 dark:hover:bg-blue-600 transition-colors"
             >
               Claim this food
             </button>
             <button
-              className="w-1/2 bg-red-500 dark:bg-red-700 text-white py-2 px-4 rounded-lg hover:bg-red-400 dark:hover:bg-red-600 transition-colors"
+              className="w-full bg-red-500 dark:bg-red-700 text-white py-2 px-4 rounded-lg hover:bg-red-400 dark:hover:bg-red-600 transition-colors"
               onClick={() => setWillClaim(false)}
             >
               Cancel
