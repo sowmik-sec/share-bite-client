@@ -13,6 +13,7 @@ import EditFoodDonation from "../pages/EditFoodDonation/EditFoodDonation";
 import RequestFood from "../pages/RequestFood/RequestFood";
 import RequestedFood from "../pages/RequestedFood/RequestedFood";
 import EditFoodRequest from "../pages/EditFoodRequest/EditFoodRequest";
+import MyClaimedFoods from "../pages/MyClaimedFoods/MyClaimedFoods";
 
 const router = createBrowserRouter([
   {
@@ -101,6 +102,14 @@ const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(`http://localhost:5000/food-requests/${params.id}`),
+      },
+      {
+        path: "my-claimed-foods",
+        element: (
+          <PrivateRoute>
+            <MyClaimedFoods />
+          </PrivateRoute>
+        ),
       },
     ],
   },

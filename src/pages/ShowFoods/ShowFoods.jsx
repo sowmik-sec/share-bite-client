@@ -3,6 +3,7 @@ import FoodCard from "../FoodCard/FoodCard";
 
 function ShowFoods({ curFoods }) {
   // Store the original list of foods
+  // eslint-disable-next-line no-unused-vars
   const [originalFoods, setOriginalFoods] = useState(curFoods);
   const [foods, setFoods] = useState(curFoods);
   const [selectedValue, setSelectedValue] = useState("");
