@@ -1,9 +1,10 @@
+import Banner from "../Banner/Banner";
 import FeaturedFood from "../FeaturedFood/FeaturedFood";
 
 function Home() {
   return (
-    <div>
-      <h2>Hello world</h2>
+    <div className="container mx-auto">
+      <Banner />
       <FeaturedFood />
     </div>
   );
