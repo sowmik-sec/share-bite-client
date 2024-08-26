@@ -39,8 +39,12 @@ function ShowFoods({ from }) {
       fetch(`http://localhost:5000/foodCount?email=${user?.email}`)
         .then((res) => res.json())
         .then((data) => setCount(data.count));
-    } else {
+    } else if (from === "availableFood") {
       fetch("http://localhost:5000/foodCountAll")
+        .then((res) => res.json())
+        .then((data) => setCount(data.count));
+    } else {
+      fetch(`http://localhost:5000/foodCount/request?email=${user?.email}`)
         .then((res) => res.json())
         .then((data) => setCount(data.count));
     }
@@ -61,6 +65,12 @@ function ShowFoods({ from }) {
           `http://localhost:5000/foods?page=${currentPage}&size=${itemsPerPage}`
         )
         .then((res) => setFoods(res.data))
+        .catch((err) => console.error(err));
+    }
+    if (from === "myClaimedFoods") {
+      fetch(`http://localhost:5000/my-claimed-foods?email=${user?.email}`)
+        .then((res) => res.json())
+        .then((data) => setFoods(data))
         .catch((err) => console.error(err));
     }
   }, [from, user, currentPage, itemsPerPage]);

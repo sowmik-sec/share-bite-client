@@ -15,7 +15,7 @@ function MyClaimedFoods() {
   if (myClaimed.length === 0) {
     return <Spinner />;
   }
-  return <ShowFoods curFoods={myClaimed} />;
+  return <ShowFoods from={"myClaimedFoods"} />;
 }
 
 export default MyClaimedFoods;
