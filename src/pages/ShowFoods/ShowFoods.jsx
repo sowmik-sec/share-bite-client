@@ -1,12 +1,73 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FoodCard from "../FoodCard/FoodCard";
+import useAuth from "../../hooks/useAuth";
+import axios from "axios";
+import Spinner from "../../shared/Spinner/Spinner";
 
-function ShowFoods({ curFoods }) {
+function ShowFoods({ from }) {
   // Store the original list of foods
+  const [foods, setFoods] = useState([]);
   // eslint-disable-next-line no-unused-vars
-  const [originalFoods, setOriginalFoods] = useState(curFoods);
-  const [foods, setFoods] = useState(curFoods);
+  const [originalFoods, setOriginalFoods] = useState(foods);
   const [selectedValue, setSelectedValue] = useState("");
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [count, setCount] = useState(0);
+  const { user } = useAuth();
+  const numberOfPages = Math.ceil(count / itemsPerPage);
+  const pages = [...Array(numberOfPages).keys()];
+
+  const handleItemsPerPage = (e) => {
+    setItemsPerPage(parseInt(e.target.value));
+    setCurrentPage(0);
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < numberOfPages - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  useEffect(() => {
+    if (from === "manageMyFood") {
+      fetch(`http://localhost:5000/foodCount?email=${user?.email}`)
+        .then((res) => res.json())
+        .then((data) => setCount(data.count));
+    } else {
+      fetch("http://localhost:5000/foodCountAll")
+        .then((res) => res.json())
+        .then((data) => setCount(data.count));
+    }
+  }, [from, user]);
+
+  useEffect(() => {
+    if (from === "manageMyFood") {
+      fetch(
+        `http://localhost:5000/foods?email=${user?.email}&page=${currentPage}&size=${itemsPerPage}`
+      )
+        .then((res) => res.json())
+        .then((data) => setFoods(data))
+        .catch((err) => console.error(err));
+    }
+    if (from === "availableFood") {
+      axios
+        .get(
+          `http://localhost:5000/foods?page=${currentPage}&size=${itemsPerPage}`
+        )
+        .then((res) => setFoods(res.data))
+        .catch((err) => console.error(err));
+    }
+  }, [from, user, currentPage, itemsPerPage]);
+
+  if (foods.length === 0) {
+    return <Spinner />;
+  }
 
   const handleSelected = (e) => {
     const value = e.target.value;
@@ -72,6 +133,30 @@ function ShowFoods({ curFoods }) {
         {foods.map((food) => (
           <FoodCard key={food._id} food={food} />
         ))}
+      </div>
+      <div className="text-center my-10">
+        <button className="btn mr-2" onClick={handlePreviousPage}>
+          Prev
+        </button>
+        {pages.map((page) => (
+          <button
+            className={`btn mr-2 ${
+              page === currentPage ? "bg-orange-400 text-white" : ""
+            }`}
+            key={page}
+            onClick={() => setCurrentPage(page)}
+          >
+            {page + 1}
+          </button>
+        ))}
+        <button className="btn mr-2" onClick={handleNextPage}>
+          Next
+        </button>
+        <select onChange={handleItemsPerPage} name="" id="">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+        </select>
       </div>
     </div>
   );
