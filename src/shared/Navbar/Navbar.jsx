@@ -13,10 +13,6 @@ function Navbar() {
   const navItems = (
     <>
       <li>
-        {" "}
-        <Link to="/about">About</Link>{" "}
-      </li>
-      <li>
         <Link to={"/available-foods"}>Available Foods</Link>
       </li>
       <li>
@@ -33,6 +29,10 @@ function Navbar() {
       </li>
       <li>
         <Link to={"requested-foods"}>Requested Foods</Link>
+      </li>
+      <li>
+        {" "}
+        <Link to="/about">About</Link>{" "}
       </li>
     </>
   );
