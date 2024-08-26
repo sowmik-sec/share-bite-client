@@ -3,6 +3,7 @@ import FoodCard from "../FoodCard/FoodCard";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import Spinner from "../../shared/Spinner/Spinner";
+import { Link } from "react-router-dom";
 
 function ShowFoods({ from }) {
   // Store the original list of foods
@@ -43,6 +44,8 @@ function ShowFoods({ from }) {
       fetch("http://localhost:5000/foodCountAll")
         .then((res) => res.json())
         .then((data) => setCount(data.count));
+    } else if (from === "featuredFood") {
+      setCount(3);
     } else {
       fetch(`http://localhost:5000/foodCount/request?email=${user?.email}`)
         .then((res) => res.json())
@@ -69,6 +72,12 @@ function ShowFoods({ from }) {
     }
     if (from === "myClaimedFoods") {
       fetch(`http://localhost:5000/my-claimed-foods?email=${user?.email}`)
+        .then((res) => res.json())
+        .then((data) => setFoods(data))
+        .catch((err) => console.error(err));
+    }
+    if (from === "featuredFood") {
+      fetch(`http://localhost:5000/featured-foods`)
         .then((res) => res.json())
         .then((data) => setFoods(data))
         .catch((err) => console.error(err));
@@ -121,53 +130,66 @@ function ShowFoods({ from }) {
 
   return (
     <div className="container mx-auto">
-      <div className="flex justify-center my-5">
-        <input
-          onChange={handleSearch}
-          type="text"
-          placeholder="Search Food"
-          className=" px-4 py-2 mt-2 border rounded-md focus:ring focus:ring-lime-500 dark:bg-gray-700 dark:text-white"
-        />
-      </div>
-      <div className="flex justify-center mb-5">
-        <h3 className="text-3xl mr-2">Sort by:</h3>
-        <select onChange={handleSelected} value={selectedValue}>
-          <option value="">Select an option</option>
-          <option value="ascending">Expires in short time</option>
-          <option value="descending">Expires in long time</option>
-          <option value="person1">Food Quantity (low to high)</option>
-          <option value="person2">Food Quantity (high to low)</option>
-        </select>
-      </div>
+      {from !== "featuredFood" && (
+        <>
+          <div className="flex justify-center my-5">
+            <input
+              onChange={handleSearch}
+              type="text"
+              placeholder="Search Food"
+              className=" px-4 py-2 mt-2 border rounded-md focus:ring focus:ring-lime-500 dark:bg-gray-700 dark:text-white"
+            />
+          </div>
+          <div className="flex justify-center mb-5">
+            <h3 className="text-3xl mr-2">Sort by:</h3>
+            <select onChange={handleSelected} value={selectedValue}>
+              <option value="">Select an option</option>
+              <option value="ascending">Expires in short time</option>
+              <option value="descending">Expires in long time</option>
+              <option value="person1">Food Quantity (low to high)</option>
+              <option value="person2">Food Quantity (high to low)</option>
+            </select>
+          </div>
+        </>
+      )}
       <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {foods.map((food) => (
           <FoodCard key={food._id} food={food} />
         ))}
       </div>
-      <div className="text-center my-10">
-        <button className="btn mr-2" onClick={handlePreviousPage}>
-          Prev
-        </button>
-        {pages.map((page) => (
-          <button
-            className={`btn mr-2 ${
-              page === currentPage ? "bg-orange-400 text-white" : ""
-            }`}
-            key={page}
-            onClick={() => setCurrentPage(page)}
-          >
-            {page + 1}
+      {from !== "featuredFood" && (
+        <div className="text-center my-10">
+          <button className="btn mr-2" onClick={handlePreviousPage}>
+            Prev
           </button>
-        ))}
-        <button className="btn mr-2" onClick={handleNextPage}>
-          Next
-        </button>
-        <select onChange={handleItemsPerPage} name="" id="">
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="15">15</option>
-        </select>
-      </div>
+          {pages.map((page) => (
+            <button
+              className={`btn mr-2 ${
+                page === currentPage ? "bg-orange-400 text-white" : ""
+              }`}
+              key={page}
+              onClick={() => setCurrentPage(page)}
+            >
+              {page + 1}
+            </button>
+          ))}
+          <button className="btn mr-2" onClick={handleNextPage}>
+            Next
+          </button>
+          <select onChange={handleItemsPerPage} name="" id="">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+          </select>
+        </div>
+      )}
+      {from === "featuredFood" && (
+        <div className="my-5 flex justify-center">
+          <Link className="btn" to={"/available-foods"}>
+            Show All
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
