@@ -14,6 +14,7 @@ import RequestFood from "../pages/RequestFood/RequestFood";
 import RequestedFood from "../pages/RequestedFood/RequestedFood";
 import EditFoodRequest from "../pages/EditFoodRequest/EditFoodRequest";
 import MyClaimedFoods from "../pages/MyClaimedFoods/MyClaimedFoods";
+import AboutComponent from "../pages/AboutComponent/AboutComponent";
 
 const router = createBrowserRouter([
   {
@@ -110,6 +111,10 @@ const router = createBrowserRouter([
             <MyClaimedFoods />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "about",
+        element: <AboutComponent />,
       },
     ],
   },
