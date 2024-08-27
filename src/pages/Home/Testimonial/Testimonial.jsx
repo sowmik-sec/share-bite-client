@@ -16,7 +16,7 @@ function Testimonial() {
               <div className="flex">
                 <img
                   className="w-14 h-14 rounded-full"
-                  src="https://pbs.twimg.com/profile_images/864282616597405701/M-FEJMZ0_400x400.jpg"
+                  src="https://static.vecteezy.com/system/resources/previews/018/991/627/non_2x/people-giving-a-donation-box-with-food-for-charity-and-solidarity-vector.jpg"
                   alt=""
                 />
                 <div className="ml-2">
@@ -32,7 +32,7 @@ function Testimonial() {
               ShareBite has been a game-changer for our community. As a local
               restaurant, we often had surplus food at the end of the day, and
               it was heartbreaking to see it go to waste. Thanks to ShareBite,
-              we're now able to share this food with families in need. It's
+              we are now able to share this food with families in need. It is
               incredibly rewarding to know that what used to be wasted is now
               nourishing others. This platform truly brings people together for
               a great cause!
@@ -60,8 +60,8 @@ function Testimonial() {
               ShareBite could make until I needed help. After losing my job,
               putting food on the table became a challenge. ShareBite connected
               me with generous donors in my area, and the support I received was
-              overwhelming. It's more than just food; it's the kindness and
-              community that ShareBite fosters. I'm so grateful for this
+              overwhelming. It is more than just food; it is the kindness and
+              community that ShareBite fosters. I am so grateful for this
               lifeline when I needed it most.
             </p>
           </div>
