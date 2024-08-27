@@ -43,7 +43,7 @@ function Testimonial() {
               <div className="flex">
                 <img
                   className="w-14 h-14 rounded-full"
-                  src="https://pbs.twimg.com/profile_images/864282616597405701/M-FEJMZ0_400x400.jpg"
+                  src="https://static.vecteezy.com/system/resources/previews/018/991/627/non_2x/people-giving-a-donation-box-with-food-for-charity-and-solidarity-vector.jpg"
                   alt=""
                 />
                 <div className="ml-2">
