@@ -23,7 +23,7 @@ function SignUp() {
             console.log("profile updated");
             const curUser = { name, email };
             axios
-              .post("http://localhost:5000/user", curUser)
+              .post("https://share-bite.vercel.app/user", curUser)
               .then((res) => console.log(res.data))
               .catch((err) => console.log(err));
           })

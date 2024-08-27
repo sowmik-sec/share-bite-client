@@ -36,7 +36,7 @@ const AddFood = () => {
       donatorEmail: user?.email,
     };
     axios
-      .post("http://localhost:5000/food", theDate)
+      .post("https://share-bite.vercel.app/food", theDate)
       .then((res) => {
         if (res.data.acknowledged) {
           toast.success("Food added successfully");

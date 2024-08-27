@@ -37,17 +37,19 @@ function ShowFoods({ from }) {
 
   useEffect(() => {
     if (from === "manageMyFood") {
-      fetch(`http://localhost:5000/foodCount?email=${user?.email}`)
+      fetch(`https://share-bite.vercel.app/foodCount?email=${user?.email}`)
         .then((res) => res.json())
         .then((data) => setCount(data.count));
     } else if (from === "availableFood") {
-      fetch("http://localhost:5000/foodCountAll")
+      fetch("https://share-bite.vercel.app/foodCountAll")
         .then((res) => res.json())
         .then((data) => setCount(data.count));
     } else if (from === "featuredFood") {
       setCount(3);
     } else {
-      fetch(`http://localhost:5000/foodCount/request?email=${user?.email}`)
+      fetch(
+        `https://share-bite.vercel.app/foodCount/request?email=${user?.email}`
+      )
         .then((res) => res.json())
         .then((data) => setCount(data.count));
     }
@@ -56,7 +58,7 @@ function ShowFoods({ from }) {
   useEffect(() => {
     if (from === "manageMyFood") {
       fetch(
-        `http://localhost:5000/foods?email=${user?.email}&page=${currentPage}&size=${itemsPerPage}`
+        `https://share-bite.vercel.app/foods?email=${user?.email}&page=${currentPage}&size=${itemsPerPage}`
       )
         .then((res) => res.json())
         .then((data) => setFoods(data))
@@ -65,19 +67,21 @@ function ShowFoods({ from }) {
     if (from === "availableFood") {
       axios
         .get(
-          `http://localhost:5000/foods?page=${currentPage}&size=${itemsPerPage}`
+          `https://share-bite.vercel.app/foods?page=${currentPage}&size=${itemsPerPage}`
         )
         .then((res) => setFoods(res.data))
         .catch((err) => console.error(err));
     }
     if (from === "myClaimedFoods") {
-      fetch(`http://localhost:5000/my-claimed-foods?email=${user?.email}`)
+      fetch(
+        `https://share-bite.vercel.app/my-claimed-foods?email=${user?.email}`
+      )
         .then((res) => res.json())
         .then((data) => setFoods(data))
         .catch((err) => console.error(err));
     }
     if (from === "featuredFood") {
-      fetch(`http://localhost:5000/featured-foods`)
+      fetch(`https://share-bite.vercel.app/featured-foods`)
         .then((res) => res.json())
         .then((data) => setFoods(data))
         .catch((err) => console.error(err));

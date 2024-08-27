@@ -41,7 +41,7 @@ const RequestFoodForm = ({ existingData = null }) => {
       // Update existing food request
       axios
         .put(
-          `http://localhost:5000/food-requests/${existingData._id}`,
+          `https://share-bite.vercel.app/food-requests/${existingData._id}`,
           formData
         )
         .then((res) => {
@@ -52,7 +52,7 @@ const RequestFoodForm = ({ existingData = null }) => {
     } else {
       // Create new food request
       axios
-        .post("http://localhost:5000/food-requests", formData)
+        .post("https://share-bite.vercel.app/food-requests", formData)
         .then((res) => {
           console.log("Request created:", res.data);
           toast.success("Food request sent successfully");

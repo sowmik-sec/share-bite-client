@@ -37,7 +37,7 @@ function FoodDetails() {
       food.foodStatus = "claimed";
       food.claimedBy = user?.email;
       axios
-        .patch(`http://localhost:5000/foods/${food._id}`, food)
+        .patch(`https://share-bite.vercel.app/foods/${food._id}`, food)
         .then((res) => {
           if (res.data.acknowledged) {
             setFood({ ...food, foodStatus: "claimed" });
@@ -51,7 +51,7 @@ function FoodDetails() {
   useEffect(() => {
     if (willDelete) {
       axios
-        .delete(`http://localhost:5000/foods/${food._id}`)
+        .delete(`https://share-bite.vercel.app/foods/${food._id}`)
         .then((result) => {
           console.log(result);
           console.log(result.data);
@@ -72,7 +72,7 @@ function FoodDetails() {
 
     if (currentDate > foodExpiredDate) {
       axios
-        .patch(`http://localhost:5000/foods/${food._id}`, {
+        .patch(`https://share-bite.vercel.app/foods/${food._id}`, {
           foodStatus: "expired",
         })
         .then((res) => {

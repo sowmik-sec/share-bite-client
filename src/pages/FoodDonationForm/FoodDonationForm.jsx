@@ -38,12 +38,12 @@ function FoodDonationForm({ initialData = {}, isEditing = false }) {
     try {
       if (isEditing) {
         await axios.put(
-          `http://localhost:5000/foods/${initialData._id}`,
+          `https://share-bite.vercel.app/foods/${initialData._id}`,
           formData
         );
         toast.success("Food details updated successfully!");
       } else {
-        await axios.post("http://localhost:5000/foods", formData);
+        await axios.post("https://share-bite.vercel.app/foods", formData);
         toast.success("Food donation created successfully!");
       }
 

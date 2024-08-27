@@ -56,7 +56,7 @@ function AuthProvider({ children }) {
       // if user exists then issue a token
       if (currentUser) {
         axios
-          .post("http://localhost:5000/jwt", loggedUser, {
+          .post("https://share-bite.vercel.app/jwt", loggedUser, {
             withCredentials: true,
           })
           .then((res) => {
@@ -64,7 +64,7 @@ function AuthProvider({ children }) {
           });
       } else {
         axios
-          .post("http://localhost:5000/logout", loggedUser, {
+          .post("https://share-bite.vercel.app/logout", loggedUser, {
             withCredentials: true,
           })
           .then((res) => {

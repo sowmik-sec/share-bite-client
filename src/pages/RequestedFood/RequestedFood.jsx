@@ -7,7 +7,7 @@ function RequestedFood() {
   const [requestedFoods, setRequestedFoods] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:5000/food-requests")
+      .get("https://share-bite.vercel.app/food-requests")
       .then((res) => setRequestedFoods(res.data))
       .catch((err) => console.error(err));
   }, []);

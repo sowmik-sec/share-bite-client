@@ -7,7 +7,7 @@ function MyClaimedFoods() {
   const [myClaimed, setMyClaimed] = useState([]);
   const { user } = useAuth();
   useEffect(() => {
-    fetch(`http://localhost:5000/my-claimed-foods?email=${user?.email}`)
+    fetch(`https://share-bite.vercel.app/my-claimed-foods?email=${user?.email}`)
       .then((res) => res.json())
       .then((data) => setMyClaimed(data))
       .catch((err) => console.error(err));
